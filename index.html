@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRN Bharatanatyam | Shree Rukmamba Nrityalaya</title>
+  <meta name="description" content="Shree Rukmamba Nrityalaya (SRN Bharatanatyam) — Preserving the timeless classical tradition of Bharatanatyam through structured curriculum, masterclasses, and Arangetram in Surat, Gujarat.">
+
+  <!-- Google Fonts: Playfair Display (Headings) & Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS for Real Interactive Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          colors: {
+            'srn-primary': '#BB2000',
+            'srn-gold': '#D49B2A',
+            'srn-ivory': '#FAF5EF',
+            'srn-charcoal': '#333333',
+            'srn-dark': '#120C08'
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'Georgia', 'serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom SCSS-Compiled Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+<body data-theme="dark" class="antialiased selection:bg-[#BB2000] selection:text-white">
+
+  <div id="loadingScreen" class="loading-screen" role="status" aria-live="polite" aria-label="Loading Shree Rukmamba Nrityalaya">
+    <div class="loading-mark"><img class="loading-logo" src="assets/images/logo.png" alt=""></div>
+    <p class="loading-title">Shree Rukmamba Nrityalaya</p>
+    <p class="loading-subtitle">Classical Bharatanatyam · Surat</p>
+    <div class="loading-progress" role="progressbar" aria-label="Page loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5"><span style="width:5%"></span></div>
+    <span class="loading-percent" aria-live="polite">5%</span>
+    <span class="loading-caption">Preparing the academy</span>
+  </div>
+
+  <!-- Hidden HTML5 Audio Element (MS Subbulakshmi Sri Venkateswara Suprabhatham) -->
+  <audio id="srnAudioPlayer" src="assets/audio/MS_Subbulakshmi_Venkateswara_Suprabhatham.mp3" preload="metadata" autoplay></audio>
+
+  <!-- ========================================== -->
+  <!-- 1. NAVIGATION BAR                          -->
+  <!-- ========================================== -->
+  <header class="srn-navbar" role="banner">
+    <div class="nav-container">
+      <!-- Academy Brand / Logo -->
+      <a href="#home" class="brand-logo" aria-label="SRN Bharatanatyam Home">
+        <div class="brand-emblem">
+          <img src="assets/images/logo.png" alt="Shree Rukmamba Nrityalaya Logo" width="44" height="44">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Shree Rukmamba Nrityalaya</span>
+          <span class="brand-sub">SRN Bharatanatyam • Surat</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:block" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="#curriculum" class="nav-link">Classes</a></li>
+          <li class="nav-item"><a href="#workshops" class="nav-link">Workshops</a></li>
+          <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Controls: Music, Dark/Light Theme Toggle, Get Started, Mobile Toggle -->
+      <div class="nav-controls">
+        <!-- Control: Functional Stop / Play Music Button -->
+        <button id="btnMusicNav" class="btn-music" type="button" aria-label="Play Music" title="Toggle Background Suprabhatham Music">
+          <span class="music-icon music-static-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </span>
+          <span class="music-wave">
+            <span></span><span></span><span></span>
+          </span>
+          <span id="btnMusicText">Play Music</span>
+        </button>
+
+        <!-- Control: Dark / Light Mode Toggle Button (with Pure SVG Sun & Moon) -->
+        <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Switch to light mode" title="Switch to light mode">
+          <!-- Sun Icon (Shown in Dark Mode to switch to Light) -->
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <!-- Moon Icon (Shown in Light Mode to switch to Dark) -->
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="btnMobileNavToggle" class="mobile-nav-toggle-btn" type="button" aria-label="Toggle navigation menu" title="Open navigation menu">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+
+        <!-- Prominent Get Started / Book Now CTA -->
+        <a href="#contact" class="btn-get-started" aria-label="Book admission consultation">
+          <span>Book Now</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Slide-In Navigation Drawer -->
+    <div id="mobileMenuDrawer" class="mobile-menu-drawer" aria-hidden="true">
+      <div>
+        <div class="mobile-drawer-header">
+          <div class="flex items-center gap-2">
+            <img src="assets/images/logo.png" alt="SRN Emblem" class="w-8 h-8 rounded-full border border-[#D49B2A]">
+            <span class="font-heading font-bold text-base" style="color:var(--text-main);">SRN Bharatanatyam</span>
+          </div>
+          <button id="btnCloseMobileNav" class="p-1 hover:text-[#BB2000]" style="color:var(--text-muted);" aria-label="Close menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <ul class="mobile-nav-links">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#curriculum">Classes</a></li>
+          <li><a href="#workshops">Workshops</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="https://www.instagram.com/srn_bharatanatyam?xtok=ODVncmM4c3A4aGhv" target="_blank" rel="noopener noreferrer" class="text-[#D49B2A] flex items-center gap-2 font-semibold">Instagram Profile ↗</a></li>
+        </ul>
+      </div>
+
+      <div class="mobile-drawer-footer">
+        <a href="#contact" class="w-full text-center py-3 rounded-full bg-[#BB2000] text-white font-semibold shadow-md">Get Started / Enquire</a>
+        <p class="text-xs text-center" style="color:var(--text-muted);">Shop No. 48, Ground Floor, Time Square, Gaurav Path Road, Pal, Surat</p>
+      </div>
+    </div>
+    <div id="mobileBackdrop" class="mobile-backdrop"></div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. HERO SECTION                            -->
+  <!-- ========================================== -->
+  <section id="home" class="srn-hero" aria-label="Hero Introduction">
+    <div class="hero-container">
+      <!-- Left Hero Narrative matching Reference UI -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Preserving Classical Traditions</span>
+        </div>
+
+        <h1 class="hero-title">
+          Shree Rukmamba
+          <span class="text-accent-gold">Nrityalaya</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Preserving the timeless tradition of Bharatanatyam.
+        </p>
+
+        <p class="hero-narrative">
+          Rooted in the ancient Natyashastra and Kalakshetra lineage, our academy cultivates rhythmic precision (Nritta), profound emotional storytelling (Abhinaya), and spiritual devotion across generations in Surat.
+        </p>
+
+        <div class="hero-actions">
+          <!-- Button matching reference "Explore Our Courses" -->
+          <a href="#curriculum" class="btn-explore">
+            <span>Explore Our Courses</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
+
+          <a href="#contact" class="btn-hero-secondary">
+            <span>Book Audition</span>
+          </a>
+        </div>
+
+        <!-- Academy Credentials & Heritage Stats -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">20+</div>
+            <div class="stat-label">Years of Lineage</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Disciples Trained</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Authentic Kalakshetra</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Visual: Authentic Dancer with Maximized Readable Animated Mudra Mandala Orbit -->
+      <div class="hero-visual">
+        <div class="dancer-cutout-container">
+          <!-- Ambient Golden Backlight Glow centered on dancer -->
+          <div class="mandala-ambient-glow"></div>
+
+          <!-- Maximized Animated Rotating Continuous Circular Mudra Mandala -->
+          <div class="mudra-mandala-wrapper" aria-label="Maximized Animated Bharatanatyam Mudra Mandala">
+            <div class="mudra-mandala-circle">
+              <!-- Concentric Celestial Golden Rings & Solar Coordinates matching Reference Image -->
+              <svg class="mandala-ring-svg" viewBox="0 0 760 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outermost delicate dashed orbital ring -->
+                <circle cx="380" cy="380" r="365" stroke="#D49B2A" stroke-width="1.2" stroke-dasharray="6 10" opacity="0.45"/>
+                <!-- Outer fine secondary orbit with small dots -->
+                <circle cx="380" cy="380" r="345" stroke="#D49B2A" stroke-width="1" stroke-dasharray="3 7" opacity="0.35"/>
+                <!-- Main continuous orbital ring where mudras sit -->
+                <circle cx="380" cy="380" r="320" stroke="#D49B2A" stroke-width="2.4" opacity="0.88"/>
+                <!-- Inner concentric ring 1 (behind arms) -->
+                <circle cx="380" cy="380" r="240" stroke="#D49B2A" stroke-width="1.2" stroke-dasharray="8 8" opacity="0.45"/>
+                <!-- Inner concentric ring 2 (behind torso) -->
+                <circle cx="380" cy="380" r="165" stroke="#D49B2A" stroke-width="1.2" opacity="0.38"/>
+                <!-- Innermost sacred core circle -->
+                <circle cx="380" cy="380" r="105" stroke="#D49B2A" stroke-width="1" stroke-dasharray="4 6" opacity="0.25"/>
+
+                <!-- Delicate radial tick marks extending to outer orbit -->
+                <line x1="380" y1="15" x2="380" y2="55" stroke="#D49B2A" stroke-width="1.6" opacity="0.6"/>
+                <line x1="380" y1="705" x2="380" y2="745" stroke="#D49B2A" stroke-width="1.6" opacity="0.6"/>
+                <line x1="15" y1="380" x2="55" y2="380" stroke="#D49B2A" stroke-width="1.6" opacity="0.6"/>
+                <line x1="705" y1="380" x2="745" y2="380" stroke="#D49B2A" stroke-width="1.6" opacity="0.6"/>
+                <line x1="122" y1="122" x2="154" y2="154" stroke="#D49B2A" stroke-width="1.4" opacity="0.45"/>
+                <line x1="606" y1="154" x2="638" y2="122" stroke="#D49B2A" stroke-width="1.4" opacity="0.45"/>
+                <line x1="154" y1="606" x2="122" y2="638" stroke="#D49B2A" stroke-width="1.4" opacity="0.45"/>
+                <line x1="638" y1="638" x2="606" y2="606" stroke="#D49B2A" stroke-width="1.4" opacity="0.45"/>
+              </svg>
+
+              <!-- 8 Classical Bharatanatyam Mudras - MAXIMIZED FOR BOLD READABILITY -->
+
+              <!-- 1. Pataka -->
+              <div class="mudra-node node-1" data-mudra="Pataka" title="Pataka hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://www.natyasutraonline.com/picturegallery/large/112_02082023103416.jpg" alt="Pataka hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 31h6v-5h-6z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <path d="M18 26V7"/>
+                        <path d="M17 26c-2-5-4-11-2-16 2 2 4 5 4 10"/>
+                        <path d="M19 26c2-5 4-11 2-16-2 2-4 5-4 10"/>
+                        <path d="M16 26c-4-4-9-7-11-12 3 0 7 3 9 7"/>
+                        <path d="M20 26c4-4 9-7 11-12-3 0-7 3-9 7"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Pataka</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Ardhapataka -->
+              <!-- 3. Ardhapataka -->
+              <div class="mudra-node node-2" data-mudra="Ardhapataka" title="Ardhapataka hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-3-ardhapataka.jpg" alt="Ardhapataka hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 31h8v-5h-8z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <rect x="13" y="16" width="13" height="10" rx="4" fill="#FCD34D" fill-opacity="0.2"/>
+                        <path d="M13 21h13"/>
+                        <path d="M14 19V7a2.8 2.8 0 0 1 5.6 0v10"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Ardhapataka</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. Kartarimukha -->
+              <div class="mudra-node node-3" data-mudra="Kartarimukha" title="Kartarimukha hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-4-kartarimukha.jpg" alt="Kartarimukha hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 31h6v-5h-6z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <path d="M15 26c-4-6-3-13 3-20 6 7 7 14 3 20" fill="#FCD34D" fill-opacity="0.2"/>
+                        <path d="M18 6v20"/>
+                        <path d="M12 18c3 1.5 5 1.5 6 0 1 1.5 3 1.5 6 0"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Kartarimukha</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Mayura -->
+              <div class="mudra-node node-4" data-mudra="Mayura" title="Mayura hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-5-mayurakhyo.jpg" alt="Mayura hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 31h8v-5h-8z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <path d="M11 25V11a2.2 2.2 0 0 1 4.4 0v14"/>
+                        <path d="M15.4 23V7a2.2 2.2 0 0 1 4.4 0v16"/>
+                        <path d="M19.8 23V8a2.2 2.2 0 0 1 4.4 0v15"/>
+                        <path d="M24.2 23V12a2.2 2.2 0 0 1 4.4 0v11c0 4.5-4.5 8-8.8 8"/>
+                        <path d="M11 20c-2.5-1-3.5-3.5-2.5-5.5a2.2 2.2 0 0 1 3.5 0l1 3.5"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Mayura</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 6. Arthachandra -->
+              <div class="mudra-node node-5" data-mudra="Arthachandra" title="Arthachandra hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-6-arthachandra.jpg" alt="Arthachandra hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 31h8v-5h-8z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <path d="M11 25V8a2.2 2.2 0 0 1 4.4 0v17"/>
+                        <path d="M15.4 23V6a2.2 2.2 0 0 1 4.4 0v17"/>
+                        <path d="M19.8 17c0-2.5 2.2-3.5 3.3-1.2l1.1 3.2"/>
+                        <path d="M24.2 23V11a2.2 2.2 0 0 1 4.4 0v11c0 4.5-4.5 9-9 9"/>
+                        <path d="M11 20c-2.5-1-3.5-3.5-2.5-5.5a2.2 2.2 0 0 1 3.5 0l1 3.5"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Arthachandra</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 7. Arala -->
+              <div class="mudra-node node-6" data-mudra="Arala" title="Arala hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-7-arala.jpg" alt="Arala hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 31h8v-5h-8z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <path d="M12 25V8a2.2 2.2 0 0 1 4.4 0v17"/>
+                        <path d="M16.4 23V7a2.2 2.2 0 0 1 4.4 0v16"/>
+                        <path d="M20.8 18c1-2.2 3.2-1.1 3.2 1.1v4"/>
+                        <path d="M24 19c1-2.2 3.2-1.1 3.2 1.1v3.5c0 4.5-3.5 8-8 8"/>
+                        <path d="M12 20c-2.5-1-3.5-3.5-2.5-5.5a2.2 2.2 0 0 1 3.5 0l1 3.5"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Arala</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 8. Shukatunda -->
+              <div class="mudra-node node-7" data-mudra="Shukatunda" title="Shukatunda hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-8-shukatunda.jpg" alt="Shukatunda hand gesture" loading="eager" decoding="async">
+                      <svg viewBox="0 0 36 36" fill="none" stroke="#FCD34D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 31h8v-5h-8z" fill="#FCD34D" fill-opacity="0.25"/>
+                        <path d="M11 25V9a2.2 2.2 0 0 1 4.4 0v16"/>
+                        <path d="M15.4 23V7a2.2 2.2 0 0 1 4.4 0v16"/>
+                        <path d="M19.8 15c0-2.2 2.2-3.3 3.3-1.1"/>
+                        <path d="M15.4 17.5c2.2 1.1 4.4 0 5.5-2.2"/>
+                        <path d="M24.2 23V10a2.2 2.2 0 0 1 4.4 0v12c0 4.5-4.5 9-9 9"/>
+                      </svg>
+                    </div>
+                    <span class="mudra-label">Shukatunda</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 9. Katakamukha -->
+              <div class="mudra-node node-8" data-mudra="Katakamukha" title="Katakamukha hasta">
+                <div class="mudra-badge">
+                  <div class="mudra-badge-inner">
+                    <div class="mudra-icon-circle">
+                      <img class="mudra-photo" src="https://sulcdn.azureedge.net/content/images/blogs/24043018-12-katakamukha.jpg" alt="Katakamukha hand gesture" loading="eager" decoding="async">
+                    </div>
+                    <span class="mudra-label">Katakamukha</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Main Dancer Transparent Cutout Image (Floats inside & in front of the Maximized Mandala) -->
+          <img id="heroMainFigureImg" 
+               src="assets/images/hero_dancer_transparent.png" 
+               alt="Classical Bharatanatyam Dancer in Authentic Pose - Shree Rukmamba Nrityalaya" 
+               class="hero-dancer-cutout-img"
+               loading="eager"
+               width="447"
+               height="558">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 3. ABOUT SECTION                           -->
+  <!-- ========================================== -->
+  <section id="about" class="srn-about" aria-label="About the Academy">
+    <div class="about-container">
+      <div class="about-grid">
+        <div class="about-image-card">
+          <!-- Provided photo4.png (1440x960 landscape) -->
+          <img src="assets/images/photo4.png" alt="Guru and Disciples in Classical Bharatanatyam Training" loading="lazy">
+          <div class="about-badge">
+            Kalakshetra Bani • Guru-Shishya Parampara
+          </div>
+        </div>
+
+        <div class="about-content">
+          <span class="about-eyebrow">Our Sacred Heritage</span>
+          <h2 class="about-title">The Sacred Art of Storytelling through Movement</h2>
+          <p class="about-p">
+            At Shree Rukmamba Nrityalaya (SRN Bharatanatyam), dance is not merely a performance — it is a prayer in motion, an awakening of divine consciousness, and an unbroken lineage of Indian classical wisdom.
+          </p>
+          <p class="about-p">
+            Under the guidance of our revered Gurus, disciples receive rigorous training in pristine footwork, symmetrical geometry, and expressive Navarasa nuances.
+          </p>
+
+          <div class="pillars-grid">
+            <div class="pillar-box">
+              <h5>Nritta (Pure Dance)</h5>
+              <p>Flawless rhythmic coordination of Adavus, Jathis, and Korvais in varying tempos.</p>
+            </div>
+            <div class="pillar-box">
+              <h5>Abhinaya (Expression)</h5>
+              <p>Evocative portrayal of shlokas and padams through facial bhavas and mudras.</p>
+            </div>
+            <div class="pillar-box">
+              <h5>Natyashastra Theory</h5>
+              <p>Comprehensive grasp of Tala, Shiro-bheda, Drishti-bheda, and Hasta Viniyogas.</p>
+            </div>
+            <div class="pillar-box">
+              <h5>Arangetram Solo</h5>
+              <p>Complete Margam debut performance marking graduation into an accomplished artist.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 4. CURRICULUM / CLASSES SECTION (Page 2)   -->
+  <!-- ========================================== -->
+  <section id="curriculum" class="srn-curriculum" aria-label="Our Bharatanatyam Curriculum">
+    <div class="curriculum-container">
+      <div class="section-header">
+        <span class="section-eyebrow">Rigorous & Disciplined Training</span>
+        <!-- Title matching Page 2 Reference -->
+        <h2 class="section-title">Our Bharatanatyam Curriculum</h2>
+        <p class="section-sub">
+          A meticulously crafted syllabus spanning foundational postures to complex multi-speed Varnams and graduation repertoires.
+        </p>
+      </div>
+
+      <!-- 3 Curriculum Cards matching Page 2 Reference using provided photos -->
+      <div class="curriculum-grid">
+        <!-- Card 1: Beginner with photo1.png -->
+        <div class="curriculum-card">
+          <div class="card-figure-box">
+            <img src="assets/images/photo1.png" alt="Beginner Bharatanatyam Student in Posture" loading="lazy">
+          </div>
+          <h3 class="card-title">Beginner</h3>
+          <span class="card-level-badge">Ages 5+ • Foundation</span>
+          <p class="card-desc">
+            Foundational Aramandi posture, fundamental Adavus (Tatta, Natta, Kuditta Mettu), Asamyuta & Samyuta Hasta mudras, basic Talam cycles, and Dhyana Shloka.
+          </p>
+          <button class="btn-view-schedule" data-level="beginner" type="button">
+            View Schedule
+          </button>
+        </div>
+
+        <!-- Card 2: Intermediate with photo2.png -->
+        <div class="curriculum-card">
+          <div class="card-figure-box">
+            <img src="assets/images/photo2.png" alt="Intermediate Bharatanatyam Student in Pose" loading="lazy">
+          </div>
+          <h3 class="card-title">Intermediate</h3>
+          <span class="card-level-badge">2-4 Years • Jathis & Margam</span>
+          <p class="card-desc">
+            Complex Korvais, speed shifts (Prathama, Dwitiya, Tritiya kalam), introduction to Abhinaya and facial bhavas, Alarippu, Jatiswaram, and Shabdam compositions.
+          </p>
+          <button class="btn-view-schedule" data-level="intermediate" type="button">
+            View Schedule
+          </button>
+        </div>
+
+        <!-- Card 3: Advanced with photo3.png -->
+        <div class="curriculum-card">
+          <div class="card-figure-box">
+            <img src="assets/images/photo3.png" alt="Advanced Bharatanatyam Dancer in Stage Pose" loading="lazy">
+          </div>
+          <h3 class="card-title">Advanced</h3>
+          <span class="card-level-badge">4+ Years • Arangetram Stage</span>
+          <p class="card-desc">
+            Full-length Varnams, intricate Padams, Javalis, Tillana, stage presence, theoretical treatises of Natyashastra, and solo Arangetram preparation.
+          </p>
+          <button class="btn-view-schedule" data-level="advanced" type="button">
+            View Schedule
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gold Ornament Border matching Reference Page 2 -->
+    <div class="gold-divider-border"></div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 5. WORKSHOPS SECTION (Page 3)              -->
+  <!-- ========================================== -->
+  <section id="workshops" class="srn-workshops" aria-label="Specialized Workshops & Masterclasses">
+    <div class="workshops-container">
+      <div class="text-center mb-10">
+        <span class="text-[#D49B2A] uppercase tracking-widest text-xs font-bold font-body">Master Guidance</span>
+        <!-- Header matching Page 3 Reference -->
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2" style="color:var(--text-main);">Specialized Workshops & Masterclasses</h2>
+        <p class="text-sm max-w-xl mx-auto mt-2 font-body" style="color:var(--text-muted);">
+          Immersive masterclasses guided by revered acharyas to hone specific dimensions of classical repertoire.
+        </p>
+      </div>
+
+      <!-- Masterclasses Featured Banner matching Page 3 with photo4.png -->
+      <div class="masterclass-banner">
+        <img src="assets/images/photo4.png" alt="Bharatanatyam Masterclass with Revered Acharya" class="banner-bg-img" loading="lazy">
+        <div class="banner-overlay-content">
+          <span class="banner-tag">Featured Winter Intensive</span>
+          <h3 class="banner-title">Specialized Workshops & Masterclasses</h3>
+          <p class="banner-text">
+            Exploring the emotional depths of Abhinaya, Natyadharmi traditions, and complex polyrhythms in Kalakshetra style.
+          </p>
+          <button class="btn-register-banner" data-workshop="Winter Masterclass Intensive" type="button">
+            <span>Register Now</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Workshop Cards Grid matching Page 3 using provided photos -->
+      <div class="workshops-grid">
+        <!-- Card 1 with photo5.png -->
+        <div class="workshop-card">
+          <div>
+            <div class="card-header-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>25 Dec • 5:00 PM</span>
+            </div>
+            <h4 class="workshop-title">Rhythmic Nuances: Adavus</h4>
+            <p class="workshop-time">Refining foot strikes, lines, and speed transitions in aramandi.</p>
+          </div>
+          <button class="btn-register-card" data-workshop="Rhythmic Nuances: Adavus (25 Dec)" type="button">
+            Register Now
+          </button>
+        </div>
+
+        <!-- Card 2 with photo6.png -->
+        <div class="workshop-card">
+          <div>
+            <div class="card-header-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>23 Dec • 7:30 PM</span>
+            </div>
+            <h4 class="workshop-title">Abhinaya Intensive</h4>
+            <p class="workshop-time">Navarasa exploration, satvika abhinaya, and classical padams.</p>
+          </div>
+          <button class="btn-register-card" data-workshop="Abhinaya Intensive (23 Dec)" type="button">
+            Register Now
+          </button>
+        </div>
+
+        <!-- Card 3 with photo7.png -->
+        <div class="workshop-card">
+          <div>
+            <div class="card-header-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>24 Dec • 7:30 PM</span>
+            </div>
+            <h4 class="workshop-title">Abhinaya Intensive: Varnam</h4>
+            <p class="workshop-time">Synchronizing lyrical bhakti with intricate sanchari bhavas.</p>
+          </div>
+          <button class="btn-register-card" data-workshop="Abhinaya Intensive: Varnam (24 Dec)" type="button">
+            Register Now
+          </button>
+        </div>
+
+        <!-- Card 4: Traditional Ghungroo Ankle Bells Feature matching Page 3 -->
+        <div class="workshop-card ghungroo-card">
+          <div class="ghungroo-img-wrap">
+            <img src="assets/images/ghungroo_hq.png" alt="Sacred Ghungroo Bells for Bharatanatyam Salangai Pooja" loading="lazy">
+          </div>
+          <h4 class="ghungroo-title">Salangai Pooja</h4>
+          <p class="ghungroo-desc">Sacred initiation ceremony of receiving the blessed ankle bells.</p>
+          <div class="mt-3">
+            <button class="btn-register-card" data-workshop="Salangai Pooja Ceremony" type="button">
+              Enquire
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 6. GALLERY SECTION                         -->
+  <!-- ========================================== -->
+  <section id="gallery" class="srn-gallery" aria-label="Visual Gallery">
+    <div class="gallery-container">
+      <div class="text-center mb-8">
+        <span class="text-[#BB2000] uppercase tracking-widest text-xs font-bold font-body">Moments of Devotion</span>
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2" style="color:var(--text-main);">Moments of Grace & Rhythm</h2>
+        <p class="text-sm max-w-xl mx-auto mt-2 font-body" style="color:var(--text-muted);">
+          A visual celebration of our recitals, arangetrams, and sacred temple performances in Surat.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="gallery-filters" role="tablist">
+        <button class="filter-btn active" data-filter="all" type="button">All Moments</button>
+        <button class="filter-btn" data-filter="temple" type="button">Temple Sanctum</button>
+        <button class="filter-btn" data-filter="curriculum" type="button">Training & Mudras</button>
+        <button class="filter-btn" data-filter="performance" type="button">Stage & Recitals</button>
+        <button class="filter-btn" data-filter="masterclass" type="button">Masterclasses</button>
+      </div>
+
+      <!-- Gallery Grid using all provided authentic photos -->
+      <div class="gallery-grid">
+        <!-- Item 1: Main Dancer in Temple -->
+        <div class="gallery-item" data-category="temple">
+          <img src="assets/images/main.jpeg" alt="Classical Bharatanatyam Dancer in Ancient Temple" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Temple Sanctum</span>
+            <h4 class="item-title">Divine Arangetram Pose</h4>
+          </div>
+        </div>
+
+        <!-- Item 2: photo1.png -->
+        <div class="gallery-item" data-category="curriculum">
+          <img src="assets/images/photo1.png" alt="Bharatanatyam Adavu Alignment" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Training</span>
+            <h4 class="item-title">Aramandi Postural Precision</h4>
+          </div>
+        </div>
+
+        <!-- Item 3: photo2.png -->
+        <div class="gallery-item" data-category="performance">
+          <img src="assets/images/photo2.png" alt="Stage Recital Pose" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Performance</span>
+            <h4 class="item-title">Alarippu Stage Performance</h4>
+          </div>
+        </div>
+
+        <!-- Item 4: photo3.png -->
+        <div class="gallery-item" data-category="performance">
+          <img src="assets/images/photo3.png" alt="Arangetram Margam Debut" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Arangetram</span>
+            <h4 class="item-title">Varnam Korvai Recital</h4>
+          </div>
+        </div>
+
+        <!-- Item 5: photo4.png -->
+        <div class="gallery-item" data-category="masterclass">
+          <img src="assets/images/photo4.png" alt="Masterclass Workshop Session" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Masterclasses</span>
+            <h4 class="item-title">Guru-Shishya Intensive</h4>
+          </div>
+        </div>
+
+        <!-- Item 6: photo5.png -->
+        <div class="gallery-item" data-category="curriculum">
+          <img src="assets/images/photo5.png" alt="Mudra and Expression Practice" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Training</span>
+            <h4 class="item-title">Hasta Mudra Demonstration</h4>
+          </div>
+        </div>
+
+        <!-- Item 7: photo6.png -->
+        <div class="gallery-item" data-category="curriculum">
+          <img src="assets/images/photo6.png" alt="Abhinaya Nuances" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Abhinaya</span>
+            <h4 class="item-title">Navarasa Facial Bhavas</h4>
+          </div>
+        </div>
+
+        <!-- Item 8: photo7.png -->
+        <div class="gallery-item" data-category="performance">
+          <img src="assets/images/photo7.png" alt="Classical Stage Recital" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Performance</span>
+            <h4 class="item-title">Tillana Climactic Finale</h4>
+          </div>
+        </div>
+
+        <!-- Item 9: photo8.png -->
+        <div class="gallery-item" data-category="temple">
+          <img src="assets/images/photo8.png" alt="Devotional Temple Dance" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Devotion</span>
+            <h4 class="item-title">Sacred Nataraja Offering</h4>
+          </div>
+        </div>
+
+        <!-- Item 10: photo9.png -->
+        <div class="gallery-item" data-category="curriculum">
+          <img src="assets/images/photo9.png" alt="Academy Disciples" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="item-category">Disciples</span>
+            <h4 class="item-title">Academy Cohort Practice</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Lightbox Modal -->
+  <div id="galleryModal" class="gallery-modal" aria-hidden="true" role="dialog">
+    <button id="btnCloseGalleryModal" class="btn-modal-close" aria-label="Close image modal">
+      <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+    <div class="modal-content-box">
+      <img id="modalImg" src="" alt="Enlarged view">
+      <div class="modal-caption">
+        <span id="modalCategory" class="text-xs uppercase tracking-widest text-[#D49B2A] font-bold"></span>
+        <h4 id="modalTitle"></h4>
+        <p class="text-xs text-neutral-400 mt-1">Shree Rukmamba Nrityalaya • Dedicated to Classical Bharatanatyam Excellence</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 7. SOCIAL MEDIA SECTION (Instagram Guide)  -->
+  <!-- ========================================== -->
+  <section class="srn-social-section" aria-label="Social Media Profile">
+    <div class="social-container">
+      <div class="social-card-main">
+        <!-- Instagram Camera Gradient Icon -->
+        <a href="https://www.instagram.com/srn_bharatanatyam?xtok=ODVncmM4c3A4aGhv" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="instagram-icon-badge"
+           aria-label="Visit SRN Bharatanatyam on Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+
+        <span class="social-tag">Connect With Us On Instagram</span>
+        <!-- Handle Title -->
+        <h2 class="social-handle-title">@srn_bharatanatyam</h2>
+        <p class="social-narrative">
+          Follow our daily rehearsals, student recitals, behind-the-scenes masterclasses, and sacred dance moments on our official Instagram page.
+        </p>
+
+        <!-- Official Instagram Profile Button -->
+        <a href="https://www.instagram.com/srn_bharatanatyam?xtok=ODVncmM4c3A4aGhv" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn-instagram-profile"
+           aria-label="Open SRN Bharatanatyam Instagram profile in new tab">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>Follow @srn_bharatanatyam</span>
+        </a>
+
+        <!-- Aesthetic Stats Strip -->
+        <div class="social-stats-strip">
+          <div class="stat-box">
+            <div class="stat-val">Regular</div>
+            <div class="stat-lbl">Class Reels & Poses</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">Live</div>
+            <div class="stat-lbl">Recital Updates</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val">Direct</div>
+            <div class="stat-lbl">Student Inquiries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 8. CONTACT & ENQUIRY SECTION (Page 4)      -->
+  <!-- ========================================== -->
+  <section id="contact" class="srn-contact" aria-label="Contact and Admissions">
+    <div class="contact-container">
+      <div class="text-center mb-12">
+        <span class="text-[#D49B2A] uppercase tracking-widest text-xs font-bold font-body">Begin Your Journey</span>
+        <!-- Header matching Page 4 Reference -->
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mt-2" style="color:var(--text-main);">Connect with Shree Rukmamba Nrityalaya</h2>
+        <p class="text-sm max-w-xl mx-auto mt-2 font-body" style="color:var(--text-muted);">
+          We welcome aspiring students of all age groups. Reach out to schedule a consultation, trial class, or workshop registration.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Left Form Panel matching Page 4 Reference -->
+        <div class="contact-form-panel">
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="contactName">Full Name *</label>
+              <input type="text" id="contactName" name="name" class="form-input" placeholder="e.g. Ananya Sharma" required>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="contactEmail">Email Address *</label>
+                <input type="email" id="contactEmail" name="email" class="form-input" placeholder="ananya@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contactPhone">Phone / WhatsApp</label>
+                <input type="tel" id="contactPhone" name="phone" class="form-input" placeholder="+91 98765 43210">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="courseSelect">Interested Program</label>
+              <select id="courseSelect" name="program" class="form-select">
+                <option value="beginner">Beginner Course (Ages 5+)</option>
+                <option value="intermediate">Intermediate Margam Course</option>
+                <option value="advanced">Advanced & Arangetram Coaching</option>
+                <option value="workshop">Specialized Workshop / Masterclass</option>
+                <option value="general">General Academy Enquiry</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="contactMessage">Your Message</label>
+              <textarea id="contactMessage" name="message" class="form-textarea" placeholder="Tell us about your background in dance or any specific questions..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-contact">
+              <span>Submit Enquiry</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
+            <div id="formStatusMsg" class="form-status-msg" role="status"></div>
+          </form>
+        </div>
+
+        <!-- Right Location & Academy Card matching Page 4 Reference -->
+        <div class="contact-info-panel">
+          <div>
+            <!-- Google Maps embed -->
+            <div class="leaflet-map-wrapper">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.801373088974!2d72.76454328078091!3d21.200048030194232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04c4e1add12a9%3A0x3a41a45891d60572!2sTime%20Square%2C%20119%2C%20Gaurav%20Path%20Road%2C%20Pal%20Gam%2C%20Surat%2C%20Gujarat%20394510!5e0!3m2!1sen!2sin!4v1793893691704!5m2!1sen!2sin" width="600" height="450" style="border:0; width:100%; height:310px; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Map to Time Square, Surat"></iframe>
+            </div>
+
+            <!-- Academy Address Box -->
+            <div class="academy-address-box">
+              <span class="academy-name-sub">Academy Center</span>
+              <h3 class="academy-name-main">SRN Bharatanatyam</h3>
+              <p class="address-text">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>
+                  Shop No. 48, Ground Floor, Time Square, Gaurav Path Road, Pal, Surat, Gujarat, India.
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Direct Contact & Social Links -->
+          <div class="contact-direct-links">
+            <a href="tel:+917046135979" class="direct-link-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.84.58 2.8.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <span>+91 70461 35979</span>
+            </a>
+            <a href="mailto:davehiranya1996@gmail.com" class="direct-link-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <polyline points="3 7 12 13 21 7"></polyline>
+              </svg>
+              <span>davehiranya1996@gmail.com</span>
+            </a>
+            <a href="https://www.instagram.com/srn_bharatanatyam?xtok=ODVncmM4c3A4aGhv" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="direct-link-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <span>Follow @srn_bharatanatyam</span>
+            </a>
+
+            <div class="direct-link-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>Visiting Hours: Mon – Sat (4:00 PM – 8:30 PM)</span>
+            </div>
+
+            <a href="https://maps.google.com/?q=Shop+No.+48,+Ground+Floor,+Time+Square,+Gaurav+Path+Road,+Pal,+Surat,+Gujarat"
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="direct-link-item text-[#D49B2A] font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+              </svg>
+              <span>Open in Google Maps ↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gold Ornament Border matching Reference Page 4 -->
+    <div class="gold-divider-border"></div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 9. FOOTER SECTION                          -->
+  <!-- ========================================== -->
+  <footer class="srn-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-top-grid">
+        <!-- Col 1: Brand & Logo -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <div class="footer-logo-img">
+              <img src="assets/images/logo.png" alt="SRN Emblem">
+            </div>
+            <div class="footer-brand-title">
+              SRN Bharatanatyam
+              <span>Shree Rukmamba Nrityalaya</span>
+            </div>
+          </div>
+          <p class="footer-bio">
+            Dedicated to imparting the highest standards of classical Kalakshetra Bharatanatyam, preserving our sacred cultural heritage with devotion and technical mastery.
+          </p>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#curriculum">Classes</a></li>
+            <li><a href="#workshops">Workshops</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Programs -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">Programs</h4>
+          <ul class="footer-links-list">
+            <li><a href="#curriculum">Beginner Foundation</a></li>
+            <li><a href="#curriculum">Intermediate Margam</a></li>
+            <li><a href="#curriculum">Arangetram Coaching</a></li>
+            <li><a href="#workshops">Specialized Masterclasses</a></li>
+            <li><a href="#workshops">Salangai Ceremony</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Address & Instagram Link -->
+        <div class="footer-contact-col">
+          <h4 class="footer-col-title">Academy Center</h4>
+          <div class="footer-address">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <div>
+              <strong>SRN Bharatanatyam</strong><br>
+              Shop No. 48, Ground Floor, Time Square, Gaurav Path Road, Pal, Surat, Gujarat, India.<br>
+              <a href="mailto:davehiranya1996@gmail.com" style="color: inherit;">davehiranya1996@gmail.com</a><br>
+              <a href="tel:+917046135979" style="color: inherit;">+91 70461 35979</a>
+            </div>
+          </div>
+
+          <!-- Instagram Profile Link -->
+          <a href="https://www.instagram.com/srn_bharatanatyam?xtok=ODVncmM4c3A4aGhv" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="footer-instagram-link"
+             aria-label="Follow SRN Bharatanatyam on Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>@srn_bharatanatyam</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Copyright Strip -->
+      <div class="footer-bottom-strip">
+        <p class="copyright-text">
+          &copy; 2026 SRN Bharatanatyam (Shree Rukmamba Nrityalaya). All Rights Reserved.
+        </p>
+
+        <div class="footer-bottom-right">
+          <span class="blessing-tag">Angikam Bhuvanam Yasya • Vachikam Sarva Vangmayam</span>
+          <button id="btnScrollTop" class="btn-scroll-top" type="button" aria-label="Back to top of page" title="Scroll to top">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- 11. INTERACTIVE SCHEDULE MODAL             -->
+  <!-- ========================================== -->
+  <div id="scheduleModal" class="schedule-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="schedule-box">
+      <button id="btnCloseSchedule" class="btn-close-schedule" type="button" aria-label="Close schedule modal">&times;</button>
+      <h3 id="modalScheduleTitle" class="modal-schedule-title">Class Schedule</h3>
+      <p id="modalScheduleSub" class="modal-schedule-sub">Course Timetable & Guru Sessions</p>
+
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Batch</th>
+            <th>Days</th>
+            <th>Timing</th>
+            <th>Instructor</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleTableBody">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+
+      <div class="schedule-cta">
+        <button id="btnScheduleEnroll" class="px-6 py-2.5 rounded-full bg-[#BB2000] text-white text-sm font-bold shadow-md hover:bg-[#d83515] transition-all" type="button">
+          Enroll In This Batch
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS for Real Interactive Map -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Vanilla JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>

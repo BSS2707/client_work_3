@@ -1,0 +1,593 @@
+@use 'variables' as *;
+
+.srn-hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 5.5rem;
+  padding-bottom: 2.5rem;
+  background-color: var(--bg-page);
+  background-image: 
+    radial-gradient(circle at 75% 48%, rgba(212, 155, 42, 0.18) 0%, transparent 62%),
+    radial-gradient(circle at 20% 60%, rgba(187, 32, 0, 0.12) 0%, transparent 50%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  // Elegant subtle golden ambient texture overlay
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 155, 42, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  // Traditional ornamental gold border strip at bottom
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 16px;
+    background-image: url('../assets/images/gold_ornament_border.png');
+    background-repeat: repeat-x;
+    background-size: contain;
+    opacity: 0.85;
+    z-index: 5;
+  }
+
+  .hero-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  // Left Content
+  .hero-content {
+    color: var(--text-main);
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      background: rgba(212, 155, 42, 0.15);
+      border: 1px solid var(--border-gold);
+      color: $color-gold;
+      font-family: $font-body;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      animation: fadeInDown 0.8s ease-out;
+
+      .badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: $color-gold;
+        box-shadow: 0 0 8px $color-gold;
+      }
+    }
+
+    .hero-title {
+      font-family: $font-heading;
+      font-size: clamp(2.4rem, 4.4vw, 4rem);
+      font-weight: 700;
+      line-height: 1.12;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+      animation: fadeInUp 0.9s ease-out;
+
+      .text-accent-gold {
+        color: $color-gold;
+        display: block;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 0.92em;
+      }
+    }
+
+    .hero-subtitle {
+      font-family: $font-body;
+      font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+      font-weight: 600;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      max-width: 520px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-narrative {
+      font-family: $font-body;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 2.25rem;
+      max-width: 500px;
+      animation: fadeInUp 1.1s ease-out;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      animation: fadeInUp 1.2s ease-out;
+
+      // Primary Button matching reference "Explore Our Courses"
+      .btn-explore {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 2rem;
+        border-radius: 9999px;
+        background: $color-gold;
+        color: #1A120B;
+        font-family: $font-body;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        box-shadow: 0 8px 24px rgba(212, 155, 42, 0.4);
+        transition: $transition-bounce;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:hover {
+          background: $color-gold-light;
+          transform: translateY(-2px);
+          box-shadow: 0 12px 30px rgba(212, 155, 42, 0.6);
+          color: #0E0906;
+        }
+
+        svg {
+          transition: transform 0.3s ease;
+        }
+        &:hover svg {
+          transform: translateX(4px);
+        }
+      }
+
+      .btn-hero-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.8rem;
+        border-radius: 9999px;
+        background: rgba(212, 155, 42, 0.1);
+        color: var(--text-main);
+        font-family: $font-body;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid var(--border-gold);
+        transition: $transition-smooth;
+
+        &:hover {
+          background: rgba(212, 155, 42, 0.22);
+          color: $color-gold;
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    .hero-stats {
+      margin-top: 2.75rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.75rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1.5rem;
+
+      .stat-item {
+        .stat-number {
+          font-family: $font-heading;
+          font-size: 1.75rem;
+          font-weight: 700;
+          color: $color-gold;
+          line-height: 1;
+        }
+        .stat-label {
+          font-family: $font-body;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--text-muted);
+          margin-top: 0.35rem;
+        }
+      }
+    }
+  }
+
+  // Right Visual: Maximized Mudra Mandala Orbit & Bold Readable Mudras
+  .hero-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInRight 1s ease-out;
+
+    .dancer-cutout-container {
+      position: relative;
+      width: 100%;
+      max-width: 780px;
+      min-height: 740px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      // Soft ambient golden backlight aura centered on dancer's torso
+      .mandala-ambient-glow {
+        position: absolute;
+        width: 620px;
+        height: 620px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(212, 155, 42, 0.32) 0%, rgba(187, 32, 0, 0.12) 55%, transparent 75%);
+        filter: blur(65px);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      // Maximized Animated Rotating Mudra Mandala Wrapper
+      .mudra-mandala-wrapper {
+        position: absolute;
+        width: 760px;
+        height: 760px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: auto;
+      }
+
+      .mudra-mandala-circle {
+        position: absolute;
+        inset: 0;
+        animation: rotateMandala 52s linear infinite;
+
+        &:hover {
+          animation-play-state: paused;
+
+          .mudra-node .mudra-badge-inner {
+            animation-play-state: paused;
+          }
+        }
+
+        .mandala-ring-svg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+      }
+
+      // 8 Mudra Nodes along the continuous enlarged circular perimeter
+      .mudra-node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        --radius: 320px;
+        cursor: pointer;
+
+        // Position nodes precisely around circular perimeter (matching reference image)
+        // 0deg = Top (Alapadma)
+        &.node-1 { transform: translate(-50%, -50%) rotate(0deg) translateY(calc(-1 * var(--radius))); --angle: 0deg; }
+        // 45deg = Top-Right (Hamsasya)
+        &.node-2 { transform: translate(-50%, -50%) rotate(45deg) translateY(calc(-1 * var(--radius))); --angle: 45deg; }
+        // 90deg = Right (Shikhara)
+        &.node-3 { transform: translate(-50%, -50%) rotate(90deg) translateY(calc(-1 * var(--radius))); --angle: 90deg; }
+        // 135deg = Bottom-Right (Mukula)
+        &.node-4 { transform: translate(-50%, -50%) rotate(135deg) translateY(calc(-1 * var(--radius))); --angle: 135deg; }
+        // 180deg = Bottom (Pataka)
+        &.node-5 { transform: translate(-50%, -50%) rotate(180deg) translateY(calc(-1 * var(--radius))); --angle: 180deg; }
+        // 225deg = Bottom-Left (Tripataka)
+        &.node-6 { transform: translate(-50%, -50%) rotate(225deg) translateY(calc(-1 * var(--radius))); --angle: 225deg; }
+        // 270deg = Left (Ardhapataka)
+        &.node-7 { transform: translate(-50%, -50%) rotate(270deg) translateY(calc(-1 * var(--radius))); --angle: 270deg; }
+        // 315deg = Top-Left (Mayura)
+        &.node-8 { transform: translate(-50%, -50%) rotate(315deg) translateY(calc(-1 * var(--radius))); --angle: 315deg; }
+
+        .mudra-badge {
+          // Counter-rotate the node angle
+          transform: rotate(calc(-1 * var(--angle)));
+        }
+
+        .mudra-badge-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          animation: counterRotateMandala 52s linear infinite;
+
+          // Mudra Circle on Orbit - MAXIMIZED FOR BOLD READABILITY
+          .mudra-icon-circle {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            background: #110804;
+            border: 2.2px solid #D49B2A;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85), 0 0 18px rgba(212, 155, 42, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FCD34D;
+            transition: $transition-smooth;
+
+            svg {
+              display: none;
+            }
+
+            .mudra-photo {
+              position: absolute;
+              inset: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 50%;
+            }
+          }
+
+          // Attached Rounded Pill Capsule - MAXIMIZED BOLD TEXT FOR CLEAR READABILITY
+          .mudra-label {
+            margin-top: 7px;
+            padding: 5px 16px;
+            border-radius: 9999px;
+            background: rgba(14, 8, 4, 0.96);
+            border: 1.8px solid #D49B2A;
+            font-family: $font-body;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #FCD34D;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 155, 42, 0.25);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+            transition: $transition-smooth;
+          }
+        }
+
+        &:hover {
+          z-index: 30;
+
+          .mudra-icon-circle {
+            background: $color-primary;
+            border-color: #FCD34D;
+            color: #FFFFFF;
+            transform: scale(1.15);
+            box-shadow: 0 10px 28px rgba(187, 32, 0, 0.8), 0 0 24px rgba(252, 211, 77, 0.8);
+          }
+
+          .mudra-label {
+            background: #D49B2A;
+            color: #120904;
+            border-color: #FFFFFF;
+            transform: translateY(2px) scale(1.08);
+            box-shadow: 0 8px 20px rgba(212, 155, 42, 0.8);
+          }
+        }
+      }
+
+      // Main Dancer Transparent Cutout Image (In Front of the Animated Circle)
+      .hero-dancer-cutout-img {
+        position: relative;
+        z-index: 5;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 570px;
+        transform: translateY(32px);
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+        filter: drop-shadow(0 22px 35px rgba(0, 0, 0, 0.55));
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+
+        &:hover {
+          transform: translateY(26px) scale(1.02);
+          filter: drop-shadow(0 28px 45px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 24px rgba(212, 155, 42, 0.45));
+        }
+      }
+    }
+  }
+}
+
+// Continuous Circular Mandala Animations
+@keyframes rotateMandala {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counterRotateMandala {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+// Keyframe Animations
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Responsive Breakpoints
+@media (max-width: 1280px) {
+  .srn-hero .hero-visual .dancer-cutout-container {
+    max-width: 650px;
+    min-height: 650px;
+
+    .mudra-mandala-wrapper {
+      width: 630px;
+      height: 630px;
+    }
+
+    .mudra-node {
+      --radius: 265px;
+      .mudra-badge-inner .mudra-icon-circle {
+        width: 58px;
+        height: 58px;
+        svg { width: 32px; height: 32px; }
+      }
+      .mudra-badge-inner .mudra-label {
+        font-size: 0.85rem;
+        padding: 4px 13px;
+      }
+    }
+
+    .hero-dancer-cutout-img {
+      max-height: 500px;
+      transform: translateY(24px);
+      &:hover { transform: translateY(18px) scale(1.02); }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .srn-hero {
+    padding-top: 6rem;
+    padding-bottom: 3.5rem;
+
+    .hero-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 3rem;
+    }
+
+    .hero-content {
+      .hero-subtitle, .hero-narrative {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-stats {
+        justify-content: center;
+      }
+    }
+
+    .hero-visual {
+      order: -1;
+
+      .dancer-cutout-container {
+        max-width: 540px;
+        min-height: 540px;
+
+        .mudra-mandala-wrapper {
+          width: 520px;
+          height: 520px;
+        }
+
+        .mudra-node {
+          --radius: 215px;
+          .mudra-badge-inner .mudra-icon-circle {
+            width: 50px;
+            height: 50px;
+            svg { width: 28px; height: 28px; }
+          }
+          .mudra-badge-inner .mudra-label {
+            font-size: 0.76rem;
+            padding: 3px 11px;
+          }
+        }
+
+        .hero-dancer-cutout-img {
+          max-height: 430px;
+          transform: translateY(18px);
+          &:hover { transform: translateY(14px) scale(1.02); }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .srn-hero {
+    padding-top: 5rem;
+    padding-bottom: 2.5rem;
+
+    .hero-container {
+      padding: 1.5rem 0.75rem;
+      gap: 2rem;
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    .hero-visual {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .dancer-cutout-container {
+        max-width: 330px;
+        min-height: 350px;
+        margin: 0 auto;
+
+        .mandala-ambient-glow {
+          width: 280px;
+          height: 280px;
+          filter: blur(35px);
+        }
+
+        .mudra-mandala-wrapper {
+          width: 320px;
+          height: 320px;
+        }
+
+        .mudra-node {
+          --radius: 130px;
+          .mudra-badge-inner .mudra-icon-circle {
+            width: 38px;
+            height: 38px;
+            border-width: 1.5px;
+            svg { width: 20px; height: 20px; }
+          }
+          .mudra-badge-inner .mudra-label {
+            font-size: 0.62rem;
+            padding: 2px 7px;
+            margin-top: 4px;
+            border-width: 1px;
+          }
+        }
+
+        .hero-dancer-cutout-img {
+          max-height: 285px;
+          transform: translateY(16px);
+          &:hover { transform: translateY(12px) scale(1.02); }
+        }
+      }
+    }
+  }
+}

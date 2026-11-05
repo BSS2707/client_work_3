@@ -1,0 +1,527 @@
+// UI/UX Design System: Shree Rukmamba Nrityalaya
+// Master SCSS Entry Point
+
+@use 'variables' as *;
+@use 'navbar';
+@use 'hero';
+@use 'gallery';
+@use 'contact';
+@use 'footer';
+
+// Global Reset & Base
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-body;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 2rem;
+  background: radial-gradient(circle at center, rgba(212, 155, 42, 0.12), transparent 34%), #120C08;
+  color: #FAF5EF;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+
+  &::before {
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(212, 155, 42, 0.24);
+    content: '';
+    pointer-events: none;
+  }
+
+  &.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .loading-mark {
+    position: relative;
+    display: grid;
+    width: 112px;
+    height: 112px;
+    place-items: center;
+    margin-bottom: 0.6rem;
+
+    &::before,
+    &::after {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(212, 155, 42, 0.48);
+      border-radius: 50%;
+      content: '';
+    }
+
+    &::after {
+      border-color: transparent rgba(212, 155, 42, 0.9) transparent transparent;
+      animation: loadingOrbit 3.2s linear infinite;
+    }
+  }
+
+  .loading-logo {
+    width: 82px;
+    height: 82px;
+    border: 2px solid rgba(212, 155, 42, 0.85);
+    border-radius: 50%;
+    box-shadow: 0 0 32px rgba(212, 155, 42, 0.28);
+  }
+
+  .loading-title {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: 1.45rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .loading-subtitle {
+    margin: -0.35rem 0 0.7rem;
+    color: #D3C4B4;
+    font-family: $font-body;
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  .loading-progress {
+    width: min(240px, 62vw);
+    height: 3px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: rgba(212, 155, 42, 0.2);
+
+    span {
+      display: block;
+      width: 5%;
+      height: 100%;
+      border-radius: inherit;
+      background: $color-gold;
+      transition: width 0.35s ease;
+    }
+  }
+
+  .loading-percent {
+    min-width: 3rem;
+    color: #FAF5EF;
+    font-family: $font-body;
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
+  .loading-caption {
+    margin-top: 0.25rem;
+    color: $color-gold;
+    font-family: $font-body;
+    font-size: 0.72rem;
+  }
+}
+
+@keyframes loadingOrbit {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen *,
+  .loading-screen::before,
+  .loading-screen::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+// Text Selection Color
+::selection {
+  background-color: $color-primary;
+  color: #FFFFFF;
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+  background: $color-gold;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $color-gold-light;
+}
+
+// Typography Helpers
+.font-heading {
+  font-family: $font-heading;
+}
+
+.font-body {
+  font-family: $font-body;
+}
+
+// About Section Styles
+.srn-about {
+  background: var(--bg-page);
+  padding: 5.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+
+  .about-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .about-image-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid var(--border-gold);
+    box-shadow: var(--shadow-card);
+    aspect-ratio: 4 / 3;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      background: rgba(18, 12, 8, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-gold);
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      color: $color-gold-light;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+  }
+
+  .about-content {
+    .about-eyebrow {
+      font-family: $font-body;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: $color-primary;
+      margin-bottom: 0.6rem;
+      display: inline-block;
+    }
+
+    .about-title {
+      font-family: $font-heading;
+      font-size: clamp(2rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+      line-height: 1.25;
+    }
+
+    .about-p {
+      font-size: 1rem;
+      color: var(--text-sub);
+      margin-bottom: 1.25rem;
+      line-height: 1.7;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.75rem;
+
+      .pillar-box {
+        background: var(--bg-card);
+        border: 1px solid var(--border-gold);
+        border-radius: 12px;
+        padding: 1.15rem 1.25rem;
+        transition: $transition-smooth;
+        box-shadow: var(--shadow-card);
+
+        h5 {
+          font-family: $font-heading;
+          font-size: 1.05rem;
+          color: $color-primary;
+          margin: 0 0 0.35rem 0;
+        }
+        p {
+          font-size: 0.85rem;
+          color: var(--text-muted);
+          margin: 0;
+          line-height: 1.55;
+        }
+
+        &:hover {
+          border-color: $color-gold;
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-hover);
+        }
+      }
+    }
+  }
+}
+
+// Floating Audio Player Widget at bottom-right
+.floating-music-bar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 9999px;
+  padding: 0.5rem 1.15rem 0.5rem 0.6rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: $transition-bounce;
+
+  .btn-play-pause-round {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: $color-primary;
+    border: none;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(187, 32, 0, 0.4);
+    transition: $transition-smooth;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background: $color-primary-light;
+      transform: scale(1.08);
+    }
+  }
+
+  .track-info-box {
+    display: flex;
+    flex-direction: column;
+
+    .track-title {
+      font-family: $font-heading;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: $color-gold;
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .track-artist {
+      font-family: $font-body;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .sound-wave-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+
+    span {
+      width: 2.5px;
+      height: 4px;
+      background: $color-gold;
+      border-radius: 2px;
+    }
+
+    &.animated span {
+      animation: wave 1s ease-in-out infinite;
+      &:nth-child(2) { animation-delay: 0.2s; height: 12px; }
+      &:nth-child(3) { animation-delay: 0.4s; height: 8px; }
+      &:nth-child(4) { animation-delay: 0.1s; height: 14px; }
+    }
+  }
+
+  &:hover {
+    border-color: $color-gold;
+    transform: translateY(-2px);
+  }
+}
+
+// Interactive Schedule Modal
+.schedule-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(12, 8, 5, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .schedule-box {
+    background: var(--bg-card);
+    border-radius: 18px;
+    max-width: 580px;
+    width: 100%;
+    padding: 2.25rem;
+    position: relative;
+    border: 2px solid var(--border-gold);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+
+    .btn-close-schedule {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      &:hover { color: $color-primary; }
+    }
+
+    .modal-schedule-title {
+      font-family: $font-heading;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-schedule-sub {
+      font-family: $font-body;
+      font-size: 0.85rem;
+      color: $color-gold;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+
+      th {
+        background: var(--bg-page-alt);
+        padding: 0.75rem 0.85rem;
+        text-align: left;
+        font-family: $font-body;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-main);
+        border-bottom: 2px solid var(--border-gold);
+      }
+
+      td {
+        padding: 0.75rem 0.85rem;
+        font-family: $font-body;
+        font-size: 0.85rem;
+        color: var(--text-sub);
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+
+    .schedule-cta {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+  }
+}
+
+// Notification Toast
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-gold);
+  padding: 0.85rem 1.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  font-family: $font-body;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 3000;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+
+  &.show {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (max-width: 991px) {
+  .srn-about .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
